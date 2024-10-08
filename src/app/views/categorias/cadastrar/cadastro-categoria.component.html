@@ -1,0 +1,35 @@
+<main class="container-fluid my-4">
+  <h1 class="fs-2">Cadastro de Categoria</h1>
+
+  <hr />
+
+  <div class="row g-3 mt-2">
+    <form [formGroup]="categoriaForm" (submit)="cadastrar()" class="col-lg-8 col-xl-5">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Título da Categoria</mat-label>
+        <input formControlName="titulo" matInput placeholder="Ex: Lazer" />
+        <mat-icon matSuffix>subtitles</mat-icon>
+      </mat-form-field>
+
+      <div class="row justify-content-center justify-content-md-end g-2 gap-1">
+        <button
+          type="submit"
+          mat-flat-button
+          class="col-sm-3 col-md-4"
+        >
+          <mat-icon matIconPrefix>check</mat-icon>
+          Confirmar
+        </button>
+        <a
+          mat-stroked-button
+          type="button"
+          class="col-sm-3 col-md-4"
+          routerLink="/categorias"
+        >
+          <mat-icon matIconPrefix>keyboard_return</mat-icon>
+          Voltar
+        </a>
+      </div>
+    </form>
+  </div>
+</main>
