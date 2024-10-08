@@ -1,0 +1,33 @@
+<main class="container-fluid my-4">
+  <h1 class="fs-2">Listagem de Categorias</h1>
+  <hr />
+
+  <div class="row g-3 mt-2">
+    <div *ngFor="let item of categorias" class="col-lg-4 col-xxl-3">
+      <mat-card class="mat-mdc-elevation-specific mat-elevation-z5 h-100">
+        <mat-card-header>
+          <mat-card-title class="titulo-card">{{ item.titulo }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-footer class="d-flex justify-content-end gap-1 p-3 mt-auto">
+          <a
+            mat-icon-button
+            class="botao-editar"
+            matTooltip="Editar {{ item.titulo }}"
+            [routerLink]="['/categorias', 'editar', item.id]"
+          >
+            <mat-icon>edit</mat-icon>
+          </a>
+          <a
+            mat-icon-button
+            class="botao-excluir"
+            matTooltip="Excluir {{ item.titulo }}"
+            [routerLink]="['/categorias', 'excluir', item.id]"
+          >
+            <mat-icon>delete</mat-icon>
+          </a>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </div>
+</main>
