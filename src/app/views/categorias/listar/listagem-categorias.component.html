@@ -2,8 +2,8 @@
   <h1 class="fs-2">Listagem de Categorias</h1>
   <hr />
 
-  <div class="row g-3 mt-2">
-    <div *ngFor="let item of categorias" class="col-lg-4 col-xxl-3">
+  <div *ngIf="categorias$ | async as itens" class="row g-3 mt-2">
+    <div *ngFor="let item of itens" class="col-lg-4 col-xxl-3">
       <mat-card class="mat-mdc-elevation-specific mat-elevation-z5 h-100">
         <mat-card-header>
           <mat-card-title class="titulo-card">{{ item.titulo }}</mat-card-title>
