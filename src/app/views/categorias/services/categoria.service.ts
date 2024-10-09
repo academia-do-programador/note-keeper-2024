@@ -5,6 +5,7 @@ import {
   CadastroCategoria,
   CategoriaCriada,
   CategoriaEditada,
+  CategoriaExcluida,
   DetalhesCategoria,
   EdicaoCategoria,
   ListagemCategoria,
@@ -32,11 +33,17 @@ export class CategoriaService {
     return this.http.put<CategoriaEditada>(urlCompleto, categoriaEditada);
   }
 
+  excluir(id: number): Observable<CategoriaExcluida> {
+    const urlCompleto = `${this.url}/${id}`;
+
+    return this.http.delete<CategoriaExcluida>(urlCompleto);
+  }
+
   selecionarTodos(): Observable<ListagemCategoria[]> {
     return this.http.get<ListagemCategoria[]>(this.url);
   }
 
-  selecionarPorId(id: number) {
+  selecionarPorId(id: number): Observable<DetalhesCategoria> {
     const urlCompleto = `${this.url}/${id}`;
 
     return this.http.get<DetalhesCategoria>(urlCompleto);

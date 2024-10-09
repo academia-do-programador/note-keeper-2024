@@ -1,0 +1,28 @@
+<main class="container my-4">
+  <h1 class="fs-2">Exclusão de Categoria</h1>
+
+  <hr />
+
+  <div *ngIf="categoria$ | async as categoria" class="row g-3 mt-2">
+    <div class="col">
+      <p>Deseja realmente excluir a categoria "{{ categoria.titulo }}"?</p>
+
+      <div class="row justify-content-end g-2 gap-1 mt-5">
+        <button (click)="excluir()" mat-flat-button class="col-sm-3 col-md-2" type="button">
+          <mat-icon>check</mat-icon>
+          Confirmar
+        </button>
+
+        <button
+          mat-stroked-button
+          class="col-sm-3 col-md-2"
+          type="button"
+          routerLink="/categorias"
+        >
+          <mat-icon>keyboard_return</mat-icon>
+          Voltar
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
