@@ -62,7 +62,7 @@ export class CadastroNotaComponent implements OnInit {
     this.categorias$ = this.categoriaService.selecionarTodos();
   }
 
-  cadastrar() {
+  cadastrar(): void {
     const novaNota: CadastroNota = this.notaForm.value;
 
     this.notaService.cadastrar(novaNota).subscribe((res) => {
@@ -78,5 +78,11 @@ export class CadastroNotaComponent implements OnInit {
     if (!controle) return false;
 
     return controle.pristine;
+  }
+
+  mapearTituloDaCategoria(id: number, categorias: ListagemCategoria[]): string {
+    const categoria = categorias.find((categoria) => categoria.id === id);
+
+    return categoria ? categoria.titulo : 'Categoria não encontrada';
   }
 }
