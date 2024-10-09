@@ -9,7 +9,6 @@
       <hr />
 
       <form [formGroup]="notaForm" (submit)="cadastrar()">
-
         <mat-form-field class="w-100" appearance="fill">
           <mat-label>Título</mat-label>
           <input
@@ -17,7 +16,7 @@
             matInput
             placeholder="Ex: Lavar o cachorro"
           />
-          <mat-icon matSuffix>title</mat-icon>
+          <mat-icon matSuffix color="primary">title</mat-icon>
         </mat-form-field>
 
         <mat-form-field class="w-100" appearance="fill">
@@ -27,7 +26,7 @@
             matInput
             placeholder="Ex: Lavar o cachorro"
           ></textarea>
-          <mat-icon matSuffix>subtitles</mat-icon>
+          <mat-icon matSuffix color="primary">subtitles</mat-icon>
         </mat-form-field>
 
         <mat-form-field class="w-100" appearance="fill">
@@ -39,7 +38,7 @@
               >{{ categoria.titulo }}</mat-option
             >
           </mat-select>
-          <mat-icon matSuffix>bookmark</mat-icon>
+          <mat-icon matSuffix color="primary">bookmark</mat-icon>
         </mat-form-field>
 
         <div class="row justify-content-end g-2 mt-2">
