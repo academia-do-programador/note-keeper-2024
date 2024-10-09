@@ -25,3 +25,5 @@ export interface ListagemCategoria {
   id: number;
   titulo: string;
 }
+
+export interface CategoriaExcluida {}

@@ -29,7 +29,7 @@ export class CadastroCategoriaComponent {
     private categoriaService: CategoriaService
   ) {
     this.categoriaForm = new FormGroup({
-      titulo: new FormControl(''),
+      titulo: new FormControl<string>(''),
     });
   }
 
