@@ -6,13 +6,13 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DetalhesCategoria } from '../models/categoria.models';
 import { CategoriaService } from '../services/categoria.service';
+import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 
 @Component({
   selector: 'app-exclusao-categoria',
   standalone: true,
   imports: [NgIf, RouterLink, AsyncPipe, MatButtonModule, MatIconModule],
-  templateUrl: './exclusao-categoria.component.html',
-  styleUrl: './exclusao-categoria.component.scss',
+  templateUrl: './exclusao-categoria.component.html'
 })
 export class ExclusaoCategoriaComponent implements OnInit {
   id?: number;
@@ -21,14 +21,15 @@ export class ExclusaoCategoriaComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private categoriaService: CategoriaService
+    private categoriaService: CategoriaService,
+    private notificacao: NotificacaoService
   ) {}
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
 
     if (!this.id) {
-      console.error('Não foi possível recuperar o id requisitado.');
+      this.notificacao.erro('Não foi possível recuperar o id requisitado!');
 
       return;
     }
@@ -38,13 +39,15 @@ export class ExclusaoCategoriaComponent implements OnInit {
 
   excluir() {
     if (!this.id) {
-      console.error('Não foi possível recuperar o id requisitado.');
+      this.notificacao.erro('Não foi possível recuperar o id requisitado!');
 
       return;
     }
 
     this.categoriaService.excluir(this.id).subscribe((res) => {
-      console.log(`O registro ID [${this.id}] foi excluído com sucesso!`);
+      this.notificacao.sucesso(
+        `O registro ID [${this.id}] foi excluído com sucesso!`
+      );
 
       this.router.navigate(['/categorias']);
     });

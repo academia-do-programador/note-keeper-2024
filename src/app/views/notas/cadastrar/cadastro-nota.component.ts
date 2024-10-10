@@ -6,7 +6,12 @@ import {
   NgSwitchCase,
 } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,6 +24,7 @@ import { CategoriaService } from '../../categorias/services/categoria.service';
 import { MatCardModule } from '@angular/material/card';
 import { NotaService } from '../services/nota.service';
 import { CadastroNota } from '../models/nota.models';
+import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 
 @Component({
   selector: 'app-cadastro-nota',
@@ -39,7 +45,6 @@ import { CadastroNota } from '../models/nota.models';
     MatCardModule,
   ],
   templateUrl: './cadastro-nota.component.html',
-  styleUrl: './cadastro-nota.component.scss',
 })
 export class CadastroNotaComponent implements OnInit {
   notaForm: FormGroup;
@@ -49,13 +54,28 @@ export class CadastroNotaComponent implements OnInit {
   constructor(
     private router: Router,
     private notaService: NotaService,
-    private categoriaService: CategoriaService
+    private categoriaService: CategoriaService,
+    private notificacao: NotificacaoService
   ) {
     this.notaForm = new FormGroup({
-      titulo: new FormControl<string>(''),
+      titulo: new FormControl<string>('', [Validators.required]),
       conteudo: new FormControl<string>(''),
-      categoriaId: new FormControl<number>(0),
+      categoriaId: new FormControl<number | undefined>(undefined, [
+        Validators.required,
+      ]),
     });
+  }
+
+  get titulo() {
+    return this.notaForm.get('titulo');
+  }
+
+  get conteudo() {
+    return this.notaForm.get('conteudo');
+  }
+
+  get categoriaId() {
+    return this.notaForm.get('categoriaId');
   }
 
   ngOnInit(): void {
@@ -66,7 +86,9 @@ export class CadastroNotaComponent implements OnInit {
     const novaNota: CadastroNota = this.notaForm.value;
 
     this.notaService.cadastrar(novaNota).subscribe((res) => {
-      console.log(`O registro ID [${res.id}] foi cadastrado com sucesso!`);
+      this.notificacao.sucesso(
+        `O registro ID [${res.id}] foi cadastrado com sucesso!`
+      );
 
       this.router.navigate(['/notas']);
     });

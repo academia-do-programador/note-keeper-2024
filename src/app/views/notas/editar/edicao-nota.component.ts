@@ -19,6 +19,7 @@ import { ListagemCategoria } from '../../categorias/models/categoria.models';
 import { CategoriaService } from '../../categorias/services/categoria.service';
 import { CadastroNota, DetalhesNota } from '../models/nota.models';
 import { NotaService } from '../services/nota.service';
+import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 
 @Component({
   selector: 'app-edicao-nota',
@@ -50,7 +51,8 @@ export class EdicaoNotaComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private notaService: NotaService,
-    private categoriaService: CategoriaService
+    private categoriaService: CategoriaService,
+    private notificacao: NotificacaoService
   ) {
     this.notaForm = new FormGroup({
       titulo: new FormControl<string>(''),
@@ -59,12 +61,23 @@ export class EdicaoNotaComponent implements OnInit {
     });
   }
 
+  get titulo() {
+    return this.notaForm.get('titulo');
+  }
+
+  get conteudo() {
+    return this.notaForm.get('conteudo');
+  }
+
+  get categoriaId() {
+    return this.notaForm.get('categoriaId');
+  }
+
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
 
     if (!this.id) {
-      console.error('Não foi possível recuperar o id requisitado.');
-
+      this.notificacao.erro('Não foi possível recuperar o id requisitado!');
       return;
     }
 
@@ -77,15 +90,16 @@ export class EdicaoNotaComponent implements OnInit {
 
   editar(): void {
     if (!this.id) {
-      console.error('Não foi possível recuperar o id requisitado.');
-
+      this.notificacao.erro('Não foi possível recuperar o id requisitado!');
       return;
     }
 
     const notaEditada: CadastroNota = this.notaForm.value;
 
     this.notaService.editar(this.id, notaEditada).subscribe((res) => {
-      console.log(`O registro ID [${res.id}] foi editado com sucesso!`);
+      this.notificacao.sucesso(
+        `O registro ID [${res.id}] foi editado com sucesso!`
+      );
 
       this.router.navigate(['/notas']);
     });
