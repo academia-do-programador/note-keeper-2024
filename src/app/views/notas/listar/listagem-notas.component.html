@@ -17,6 +17,20 @@
 
   <hr />
 
+  <div class="row g-3 mt-2">
+    <mat-chip-listbox *ngIf="categorias$ | async as categorias">
+      <mat-chip-option (click)="filtrar()" selected
+        >Todas as notas</mat-chip-option
+      >
+
+      <mat-chip-option
+        *ngFor="let categoria of categorias"
+        (click)="filtrar(categoria.id)"
+        >{{ categoria.titulo }}</mat-chip-option
+      >
+    </mat-chip-listbox>
+  </div>
+
   <div *ngIf="notas$ | async as itens" class="row g-3 mt-2">
     <div *ngFor="let item of itens" class="col-md-6 col-lg-4">
       <mat-card
