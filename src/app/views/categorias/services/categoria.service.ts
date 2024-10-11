@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import {
   CadastroCategoria,
@@ -11,6 +10,7 @@ import {
   ListagemCategoria,
 } from '../models/categoria.models';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
