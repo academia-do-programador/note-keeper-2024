@@ -36,7 +36,7 @@ export interface ListagemNota {
   conteudo: string;
 
   categoriaId: number;
-  categoria: ListagemCategoria;
+  categoria?: ListagemCategoria;
 }
 
 export interface DetalhesNota {
@@ -45,7 +45,7 @@ export interface DetalhesNota {
   conteudo: string;
 
   categoriaId: number;
-  categoria: ListagemCategoria;
+  categoria?: ListagemCategoria;
 }
 
 export interface NotaExcluida {}
