@@ -27,5 +27,7 @@ internal class Program
         dbContext.Add(novaCategoria);
 
         dbContext.SaveChanges();
+
+        Console.ReadLine();
     }
 }
