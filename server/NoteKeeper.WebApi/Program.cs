@@ -5,6 +5,7 @@ using NoteKeeper.Dominio.Compartilhado;
 using NoteKeeper.Dominio.ModuloCategoria;
 using NoteKeeper.Infra.Orm.Compartilhado;
 using NoteKeeper.Infra.Orm.ModuloCategoria;
+using NoteKeeper.WebApi.Config.Mapping;
 
 namespace NoteKeeper.WebApi;
 
@@ -24,6 +25,11 @@ public class Program
 
         builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaOrm>();
         builder.Services.AddScoped<ServicoCategoria>();
+
+        builder.Services.AddAutoMapper(config =>
+        {
+            config.AddProfile<CategoriaProfile>();
+        });
 
         builder.Services.AddControllers();
 
