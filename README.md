@@ -18,10 +18,10 @@ Sistema de Cadastro de Categorias e Notas desenvolvido utilizando ASP.NET WebAPI
 	- título
 	- notas
 
-2. O cadastro do **Compromisso** consiste de:
+2. O cadastro do **Nota** consiste de:
 	- título
 	- conteúdo
-  - status "arquivada"  
+	- status "arquivada"  
 	- categoria
 
 ---
