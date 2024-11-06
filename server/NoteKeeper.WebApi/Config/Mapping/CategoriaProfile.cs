@@ -14,7 +14,5 @@ public class CategoriaProfile : Profile
 
         CreateMap<InserirCategoriaViewModel, Categoria>();
         CreateMap<EditarCategoriaViewModel, Categoria>();
-
-        CreateMap<Nota, ListarNotaViewModel>();
     }
 }
