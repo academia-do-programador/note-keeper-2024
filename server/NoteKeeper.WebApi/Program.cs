@@ -24,7 +24,7 @@ public class Program
 
         builder.Services.AddDbContext<IContextoPersistencia, NoteKeeperDbContext>(optionsBuilder =>
         {
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString, dbOptions => dbOptions.EnableRetryOnFailure());
         });
 
         builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaOrm>();
