@@ -17,6 +17,8 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        const string politicaCors = "_minhaPoliticaCors";
+
         // Configuração de Injeção de Dependência
         var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +46,17 @@ public class Program
             config.AddProfile<NotaProfile>();
         });
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: politicaCors, policy =>
+            {
+                policy
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
+
         builder.Services.AddControllers();
 
         builder.Services.AddEndpointsApiExplorer();
@@ -69,6 +82,8 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+
+        app.UseCors(politicaCors);
 
         app.UseAuthorization();
 
