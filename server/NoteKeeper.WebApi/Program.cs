@@ -24,7 +24,10 @@ public class Program
 
         builder.Services.AddDbContext<IContextoPersistencia, NoteKeeperDbContext>(optionsBuilder =>
         {
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString, dbOptions =>
+            {
+                dbOptions.EnableRetryOnFailure();
+            });
         });
 
         builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaOrm>();
@@ -50,10 +53,19 @@ public class Program
         // Middlewares de execução da API
         var app = builder.Build();
 
-        if (app.Environment.IsDevelopment())
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
+        // Migrações de Banco de dados
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            using var scope = app.Services.CreateScope();
+
+            var dbContext = scope.ServiceProvider.GetRequiredService<IContextoPersistencia>();
+
+            if (dbContext is NoteKeeperDbContext noteKeeperDbContext)
+            {
+                MigradorBancoDados.AtualizarBancoDados(noteKeeperDbContext);
+            }
         }
 
         app.UseHttpsRedirection();
