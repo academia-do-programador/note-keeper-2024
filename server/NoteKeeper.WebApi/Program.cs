@@ -17,6 +17,8 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        const string politicaCorsPersonalizada = "_politicaCorsPersonalizada";
+
         // Configuração de Injeção de Dependência
         var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +43,19 @@ public class Program
             config.AddProfile<NotaProfile>();
         });
 
+        // Configuração de comunicação entre servidores em domínios diferentes (CORS)
+        // Docs: https://learn.microsoft.com/pt-br/aspnet/core/security/cors?view=aspnetcore-8.0
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: politicaCorsPersonalizada, policy =>
+            {
+                policy
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
+
         builder.Services.AddControllers();
 
         builder.Services.AddEndpointsApiExplorer();
@@ -50,13 +65,25 @@ public class Program
         // Middlewares de execução da API
         var app = builder.Build();
 
-        if (app.Environment.IsDevelopment())
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
+        // Migrações de banco de dados
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            using var scope = app.Services.CreateScope();
+
+            var dbContext = scope.ServiceProvider.GetRequiredService<IContextoPersistencia>();
+
+            if (dbContext is NoteKeeperDbContext noteKeeperDbContext)
+            {
+                MigradorBancoDados.AtualizarBancoDados(noteKeeperDbContext);
+            }
         }
 
         app.UseHttpsRedirection();
+
+        // Habilitando CORS através de middleware
+        app.UseCors(politicaCorsPersonalizada);
 
         app.UseAuthorization();
 
