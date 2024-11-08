@@ -11,6 +11,11 @@ namespace NoteKeeper.Infra.Orm.ModuloNota
         {
         }
 
+        public override async Task<List<Nota>> SelecionarTodosAsync()
+        {
+            return await registros.Include(x => x.Categoria).ToListAsync();
+        }
+
         public override async Task<Nota> SelecionarPorIdAsync(Guid id)
         {
             return await registros.Include(x => x.Categoria).SingleOrDefaultAsync(x => x.Id == id);
