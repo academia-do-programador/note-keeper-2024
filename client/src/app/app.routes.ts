@@ -1,14 +1,24 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './views/dashboard/dashboard.component';
-import { notasRoutes } from './views/notas/notas.routes';
-import { categoriasRoutes } from './views/categorias/categorias.routes';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./views/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent
+      ),
+  },
   {
     path: 'categorias',
-    children: categoriasRoutes,
+    loadChildren: () =>
+      import('./views/categorias/categorias.routes').then(
+        (m) => m.categoriasRoutes
+      ),
   },
-  { path: 'notas', children: notasRoutes },
+  {
+    path: 'notas',
+    loadChildren: () =>
+      import('./views/notas/notas.routes').then((m) => m.notasRoutes),
+  },
 ];
