@@ -10,6 +10,7 @@ using NoteKeeper.Infra.Orm.ModuloCategoria;
 using NoteKeeper.Infra.Orm.ModuloNota;
 using NoteKeeper.WebApi.Config.Mapping;
 using NoteKeeper.WebApi.Config.Mapping.Actions;
+using NoteKeeper.WebApi.Filters;
 
 namespace NoteKeeper.WebApi;
 
@@ -57,7 +58,10 @@ public class Program
             });
         });
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(options =>
+        {
+            options.Filters.Add<ResponseWrapperFilter>();
+        });
 
         builder.Services.AddEndpointsApiExplorer();
 
