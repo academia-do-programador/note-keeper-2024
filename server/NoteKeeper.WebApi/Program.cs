@@ -8,6 +8,7 @@ using NoteKeeper.Dominio.ModuloNota;
 using NoteKeeper.Infra.Orm.Compartilhado;
 using NoteKeeper.Infra.Orm.ModuloCategoria;
 using NoteKeeper.Infra.Orm.ModuloNota;
+using NoteKeeper.WebApi.Config;
 using NoteKeeper.WebApi.Config.Mapping;
 using NoteKeeper.WebApi.Config.Mapping.Actions;
 using NoteKeeper.WebApi.Filters;
@@ -69,6 +70,8 @@ public class Program
 
         // Middlewares de execução da API
         var app = builder.Build();
+
+        app.UseGlobalExceptionHandler();
 
         app.UseSwagger();
         app.UseSwaggerUI();
