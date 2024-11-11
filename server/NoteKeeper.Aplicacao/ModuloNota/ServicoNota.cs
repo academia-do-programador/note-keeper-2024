@@ -14,10 +14,18 @@ public class ServicoNota
 
     public async Task<Result<Nota>> InserirAsync(Nota nota)
     {
-        var resultadoValidacao = nota.Validar();
+        var validador = new ValidadorNota();
 
-        if (resultadoValidacao.Count > 0)
-            return Result.Fail(resultadoValidacao);
+        var resultadoValidacao = await validador.ValidateAsync(nota);
+
+        if (!resultadoValidacao.IsValid)
+        {
+            var erros = resultadoValidacao.Errors
+                .Select(failure => failure.ErrorMessage)
+                .ToList();
+
+            return Result.Fail(erros);
+        }
 
         await _repositorioNota.InserirAsync(nota);
 
@@ -26,10 +34,18 @@ public class ServicoNota
 
     public async Task<Result<Nota>> EditarAsync(Nota nota)
     {
-        var resultadoValidacao = nota.Validar();
+        var validador = new ValidadorNota();
 
-        if (resultadoValidacao.Count > 0)
-            return Result.Fail(resultadoValidacao);
+        var resultadoValidacao = await validador.ValidateAsync(nota);
+
+        if (!resultadoValidacao.IsValid)
+        {
+            var erros = resultadoValidacao.Errors
+                .Select(failure => failure.ErrorMessage)
+                .ToList();
+
+            return Result.Fail(erros);
+        }
 
         _repositorioNota.Editar(nota);
 

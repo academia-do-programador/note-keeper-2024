@@ -15,9 +15,6 @@ public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mape
     {
         var resultado = await servicoCategoria.SelecionarTodosAsync();
 
-        if (resultado.IsFailed)
-            return StatusCode(500);
-
         var viewModel = mapeador.Map<ListarCategoriaViewModel[]>(resultado.Value);
 
         return Ok(viewModel);
@@ -27,9 +24,6 @@ public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mape
     public async Task<IActionResult> GetById(Guid id)
     {
         var categoriaResult = await servicoCategoria.SelecionarPorIdAsync(id);
-
-        if (categoriaResult.IsFailed)
-            return StatusCode(500);
 
         if (categoriaResult.IsSuccess && categoriaResult.Value is null)
             return NotFound(categoriaResult.Errors);
@@ -47,7 +41,7 @@ public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mape
         var resultado = await servicoCategoria.InserirAsync(categoria);
 
         if (resultado.IsFailed)
-            return BadRequest(resultado.Errors);
+            return BadRequest(resultado.Errors.Select(err => err.Message));
 
         return Ok(categoriaVm);
     }
@@ -57,15 +51,12 @@ public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mape
     {
         var selecaoCategoriaOriginal = await servicoCategoria.SelecionarPorIdAsync(id);
 
-        if (selecaoCategoriaOriginal.IsFailed)
-            return NotFound(selecaoCategoriaOriginal.Errors);
-
         var categoriaEditada = mapeador.Map(categoriaVm, selecaoCategoriaOriginal.Value);
 
         var edicaoResult = await servicoCategoria.EditarAsync(categoriaEditada);
 
         if (edicaoResult.IsFailed)
-            return BadRequest(edicaoResult.Errors);
+            return BadRequest(edicaoResult.Errors.Select(err => err.Message));
 
         return Ok(edicaoResult.Value);
     }
