@@ -69,7 +69,7 @@ public class Program
 
         builder.Services.AddSwaggerGen();
 
-        builder.Services.ConfigureSerilog(builder.Logging);
+        builder.Services.ConfigureSerilog(builder.Logging, builder.Configuration);
 
         // Middlewares de execução da API
         var app = builder.Build();
