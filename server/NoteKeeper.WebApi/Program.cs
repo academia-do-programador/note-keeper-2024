@@ -92,6 +92,15 @@ public class Program
 
         app.MapControllers();
 
-        app.Run();
+        try
+        {
+            app.Run();
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal("Ocorreu um erro que ocasionou no fechamento da aplicação.", ex);
+
+            return;
+        }
     }
 }
