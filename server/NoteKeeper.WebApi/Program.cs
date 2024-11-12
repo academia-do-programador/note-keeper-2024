@@ -12,6 +12,7 @@ using NoteKeeper.WebApi.Config;
 using NoteKeeper.WebApi.Config.Mapping;
 using NoteKeeper.WebApi.Config.Mapping.Actions;
 using NoteKeeper.WebApi.Filters;
+using Serilog;
 
 namespace NoteKeeper.WebApi;
 
@@ -68,6 +69,8 @@ public class Program
 
         builder.Services.AddSwaggerGen();
 
+        builder.Services.ConfigureSerilog(builder.Logging);
+
         // Middlewares de execução da API
         var app = builder.Build();
 
@@ -76,17 +79,10 @@ public class Program
         app.UseSwagger();
         app.UseSwaggerUI();
 
-        // Migrações de Banco de dados
-        {
-            using var scope = app.Services.CreateScope();
+        var migracaoConcluida = app.AutoMigrateDatabase();
 
-            var dbContext = scope.ServiceProvider.GetRequiredService<IContextoPersistencia>();
-
-            if (dbContext is NoteKeeperDbContext noteKeeperDbContext)
-            {
-                MigradorBancoDados.AtualizarBancoDados(noteKeeperDbContext);
-            }
-        }
+        if (migracaoConcluida) Log.Information("Migração de banco de dados concluída");
+        else Log.Information("Nenhuma migração de banco de dados pendente");
 
         app.UseHttpsRedirection();
 
