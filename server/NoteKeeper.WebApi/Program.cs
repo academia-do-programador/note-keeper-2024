@@ -22,6 +22,8 @@ public class Program
 
         builder.Services.ConfigureIdentity();
 
+        builder.Services.ConfigureJwt(builder.Configuration);
+
         builder.Services.ConfigureControllersWithFilters();
 
         builder.Services.ConfigureCors(politicaCors);
