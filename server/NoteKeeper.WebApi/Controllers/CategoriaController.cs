@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NoteKeeper.Aplicacao.ModuloCategoria;
 using NoteKeeper.Dominio.ModuloCategoria;
@@ -8,6 +9,7 @@ namespace NoteKeeper.WebApi.Controllers;
 
 [Route("api/categorias")]
 [ApiController]
+[Authorize]
 public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mapeador) : ControllerBase
 {
     [HttpGet]

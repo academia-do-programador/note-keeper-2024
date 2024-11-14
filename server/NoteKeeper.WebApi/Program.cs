@@ -28,9 +28,7 @@ public class Program
 
         builder.Services.ConfigureCors(politicaCors);
 
-        builder.Services.AddEndpointsApiExplorer();
-
-        builder.Services.AddSwaggerGen();
+        builder.Services.ConfigureSwaggerAuthorization();
 
         var app = builder.Build();
 
